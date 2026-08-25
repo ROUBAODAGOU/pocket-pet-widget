@@ -25,8 +25,8 @@ targets:
     sources:
       - path: PocketPal/App
       - path: PocketPal/Shared
-    resources:
       - path: PocketPal/Resources
+        buildPhase: resources
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.example.PocketPal

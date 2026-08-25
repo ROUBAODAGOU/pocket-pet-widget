@@ -26,6 +26,15 @@ final class ProjectSkeletonTests: XCTestCase {
             urlType["CFBundleURLSchemes"] as? [String] ?? []
         }
         XCTAssertTrue(configuredSchemes.contains(ProjectConfiguration.urlScheme))
+
+        let projectSpec = try textFile(at: "project.yml")
+            .replacingOccurrences(of: "\r\n", with: "\n")
+        XCTAssertTrue(
+            projectSpec.contains(
+                "      - path: PocketPal/Resources\n        buildPhase: resources"
+            )
+        )
+        XCTAssertFalse(projectSpec.contains("\n    resources:\n"))
     }
 
     private func propertyList(at relativePath: String) throws -> [String: Any] {
@@ -40,5 +49,15 @@ final class ProjectSkeletonTests: XCTestCase {
             format: &format
         )
         return try XCTUnwrap(object as? [String: Any])
+    }
+
+    private func textFile(at relativePath: String) throws -> String {
+        let projectRoot = URL(fileURLWithPath: #filePath)
+            .deletingLastPathComponent()
+            .deletingLastPathComponent()
+        return try String(
+            contentsOf: projectRoot.appendingPathComponent(relativePath),
+            encoding: .utf8
+        )
     }
 }
