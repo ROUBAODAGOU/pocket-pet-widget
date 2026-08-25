@@ -203,9 +203,12 @@ final class AppStore: ObservableObject {
         availableAt: Date?
     ) -> String {
         switch reason {
-        case .noPet: "还没有宠物，请先完成领养。"
-        case .noSnacks: "星星饼干用完了，稍后去背包补充。"
-        case .notHungry: "现在还不饿，晚一点再喂吧。"
+        case .noPet:
+            return "还没有宠物，请先完成领养。"
+        case .noSnacks:
+            return "星星饼干用完了，稍后去背包补充。"
+        case .notHungry:
+            return "现在还不饿，晚一点再喂吧。"
         case .cooldown:
             if let availableAt {
                 return "正在休息，\(availableAt.formatted(date: .omitted, time: .shortened)) 后可再次互动。"
