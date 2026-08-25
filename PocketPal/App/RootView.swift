@@ -19,7 +19,8 @@ struct RootView: View {
             case let .failure(message, canRetry):
                 DataRecoveryView(
                     message: message,
-                    retry: canRetry ? store.refresh : nil
+                    canRetry: canRetry,
+                    retry: { store.refresh() }
                 )
             }
         }
@@ -32,7 +33,8 @@ struct RootView: View {
 
 private struct DataRecoveryView: View {
     var message: String
-    var retry: (() -> Void)?
+    var canRetry: Bool
+    var retry: () -> Void
 
     var body: some View {
         ContentUnavailableView {
@@ -40,7 +42,7 @@ private struct DataRecoveryView: View {
         } description: {
             Text(message)
         } actions: {
-            if let retry {
+            if canRetry {
                 Button("recovery.retry", action: retry)
                     .buttonStyle(.borderedProminent)
             }
