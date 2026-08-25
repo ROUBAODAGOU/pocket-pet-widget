@@ -3,6 +3,7 @@
   "strings" : {
     "adoption.confirm" : {
       "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "确认领养" } },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -13,6 +14,7 @@
     },
     "adoption.keyboard.dismiss" : {
       "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "收起键盘" } },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -23,6 +25,7 @@
     },
     "adoption.name.hint" : {
       "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "名称有效时创建宠物并进入家园" } },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -33,6 +36,7 @@
     },
     "adoption.name.label" : {
       "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "宠物名字" } },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -43,6 +47,7 @@
     },
     "adoption.name.placeholder" : {
       "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "1–12 个字符" } },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -53,6 +58,7 @@
     },
     "adoption.subtitle" : {
       "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "给它一个名字，一起开始轻松的小日常。" } },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -63,6 +69,7 @@
     },
     "adoption.title" : {
       "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "遇见你的奶油团子猫" } },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -73,6 +80,7 @@
     },
     "app.loading" : {
       "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "正在唤醒小伙伴…" } },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -83,6 +91,7 @@
     },
     "guide.body" : {
       "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "长按 iPhone 主屏幕，点“编辑”与“添加小组件”，再搜索 PocketPal。" } },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -93,6 +102,7 @@
     },
     "guide.dismiss" : {
       "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "知道了" } },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -103,6 +113,7 @@
     },
     "guide.title" : {
       "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "把它放到主屏幕" } },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -113,6 +124,7 @@
     },
     "interaction.feed" : {
       "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "喂食" } },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -123,6 +135,7 @@
     },
     "interaction.pet" : {
       "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "抚摸" } },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -133,6 +146,7 @@
     },
     "interaction.play" : {
       "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "玩耍" } },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -143,6 +157,7 @@
     },
     "recovery.retry" : {
       "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "重新读取" } },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -153,6 +168,7 @@
     },
     "recovery.title" : {
       "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "暂时读不到宠物" } },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -163,6 +179,7 @@
     },
     "status.coins" : {
       "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "金币" } },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -173,6 +190,7 @@
     },
     "status.hunger" : {
       "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "饥饿" } },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -183,6 +201,7 @@
     },
     "status.intimacy" : {
       "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "亲密度" } },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -193,6 +212,7 @@
     },
     "status.mood" : {
       "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "心情" } },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
