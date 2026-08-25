@@ -7,5 +7,6 @@ final class ProjectSkeletonUITests: XCTestCase {
         app.launch()
 
         XCTAssertTrue(app.staticTexts["project-status-title"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.staticTexts["phase-two-snapshot"].waitForExistence(timeout: 10))
     }
 }
