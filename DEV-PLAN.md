@@ -116,7 +116,16 @@
 
 ## Phase 3：领养、家园与 App 内互动闭环
 
-**状态：** 进行中（领养、家园与 App 内互动闭环）
+**状态：** 已完成（2026-08-25；GitHub Actions `iOS CI` run `32839501999` 全绿）
+
+**验证证据：**
+
+- 验证提交：`bf41af5be93701b0848d414c03b273d9f9fb3afc`。
+- GitHub Actions：<https://github.com/ROUBAODAGOU/pocket-pet-widget/actions/runs/32839501999>，XcodeGen 工程生成、App 与 Widget 编译、String Catalog 编译、模拟器测试和截图制品上传全部成功。
+- 自动测试：Unit Tests 39/39、UI Tests 3/3 通过，0 失败；构建日志以 `TEST SUCCEEDED` 结束。
+- UI 证据：`ui-screenshots` 制品包含 6 张截图，覆盖领养页、浅色家园、深色家园顶部与动作区、最大辅助字号顶部与动作区。
+- Windows 本地证据：`E:\PocketPal-CI-Evidence\run-32839501999-green`，包含 `PocketPal.xcresult`、`xcodebuild.log`、截图和 manifest。
+- 独立代码审查：Stage 1 需求一致性与 Stage 2 代码质量均通过，0 个遗留问题。
 
 **依赖：** Phase 2
 
@@ -151,9 +160,11 @@
 
 **本阶段如何验证：**
 
-1. 在 Windows 下载 CI 的 `ui-screenshots` 制品查看四组页面截图。
-2. 在 Actions 测试摘要确认领养、恢复和互动流程通过。
-3. 这一阶段不要求人工操作主屏幕 Widget。
+1. 在 Windows 打开 [Phase 3 成功运行](https://github.com/ROUBAODAGOU/pocket-pet-widget/actions/runs/32839501999)，确认全部步骤为绿色。
+2. 下载 `ui-screenshots` 查看 6 张页面截图；下载 `pocketpal-ios-verification` 查看 `.xcresult` 和 `xcodebuild.log`。
+3. 在日志中确认 `CompileXCStrings`、Unit Tests 39/39、UI Tests 3/3 和 `TEST SUCCEEDED`。
+4. 也可直接查看本机证据目录 `E:\PocketPal-CI-Evidence\run-32839501999-green`。
+5. 这一阶段不要求人工操作主屏幕 Widget。
 
 ---
 
