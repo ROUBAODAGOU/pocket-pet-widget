@@ -53,7 +53,15 @@
 
 ## Phase 2：宠物状态引擎与共享持久化
 
-**状态：** 进行中（领域规则、共享持久化与 Use Case 实现）
+**状态：** 已完成（2026-08-25；GitHub Actions `iOS CI` run `32822009290` 全绿）
+
+**验证证据：**
+
+- 验证提交：`9c6f5787a57f9364c8a2b1fb48cdb8a11e544e98`。
+- GitHub Actions：<https://github.com/ROUBAODAGOU/pocket-pet-widget/actions/runs/32822009290>，工程生成、App 与 Widget 编译、模拟器测试和制品上传全部成功。
+- 自动测试：Unit Tests 24/24、UI Tests 1/1 通过，0 失败；构建日志以 `TEST SUCCEEDED` 结束。
+- CI 制品：`pocketpal-ios-verification`，包含 `PocketPal.xcresult` 与 `xcodebuild.log`。
+- 独立代码审查：Stage 1 需求一致性与 Stage 2 代码质量均通过，0 个遗留问题。
 
 **依赖：** Phase 1
 
@@ -100,8 +108,8 @@
 
 **本阶段如何验证：**
 
-1. 查看 CI 的单元测试摘要，确认状态引擎和持久化测试全部通过。
-2. 下载 `.xcresult`；失败时可看到具体输入时间、动作和预期数值。
+1. 打开 [Phase 2 成功运行](https://github.com/ROUBAODAGOU/pocket-pet-widget/actions/runs/32822009290)，确认 `Generate → Build → Test → Upload artifacts` 全绿。
+2. 下载 `pocketpal-ios-verification`，检查 `xcodebuild.log` 中 Unit Tests 24/24、UI Tests 1/1 和 `TEST SUCCEEDED`；`.xcresult` 可在 Xcode 中查看逐项结果。
 3. 本阶段的 App Group 真容器仍属于最终 Mac 人工验收项，CI 只验证同一仓库实现与文件语义。
 
 ---
