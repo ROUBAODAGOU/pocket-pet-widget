@@ -1,0 +1,13 @@
+.DS_Store
+.build/
+.swiftpm/
+DerivedData/
+TestResults/
+build/
+*.xcuserstate
+xcuserdata/
+PocketPal.xcodeproj/
+
+.env
+.env.*
+!.env.example

@@ -1,0 +1,88 @@
+name: iOS CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ios-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    name: Generate, build, and test
+    runs-on: macos-26
+    timeout-minutes: 35
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_26.6.app/Contents/Developer
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Show Apple toolchain
+        run: |
+          test -d "$DEVELOPER_DIR"
+          xcodebuild -version
+          xcrun swift --version
+          xcrun simctl list runtimes
+
+      - name: Install pinned XcodeGen
+        env:
+          XCODEGEN_VERSION: 2.46.0
+          XCODEGEN_SHA256: 4d9e34b62172d645eed6457cac13fc222569974098ef4ee9c3368bedf0196806
+        run: |
+          set -euo pipefail
+          curl --fail --location \
+            "https://github.com/yonaskolb/XcodeGen/releases/download/${XCODEGEN_VERSION}/xcodegen.zip" \
+            --output "$RUNNER_TEMP/xcodegen.zip"
+          echo "${XCODEGEN_SHA256}  $RUNNER_TEMP/xcodegen.zip" | shasum -a 256 --check
+          unzip -q "$RUNNER_TEMP/xcodegen.zip" -d "$RUNNER_TEMP/xcodegen"
+          echo "$RUNNER_TEMP/xcodegen/bin" >> "$GITHUB_PATH"
+          "$RUNNER_TEMP/xcodegen/bin/xcodegen" version
+
+      - name: Generate Xcode project
+        run: |
+          set -euo pipefail
+          xcodegen generate
+          xcodebuild -list -project PocketPal.xcodeproj
+
+      - name: Select an available iPhone simulator
+        id: simulator
+        run: |
+          set -euo pipefail
+          simulator_id="$(xcrun simctl list devices available | awk -F '[()]' '/iPhone/ && /(Shutdown|Booted)/ {print $2; exit}')"
+          if [ -z "$simulator_id" ]; then
+            echo "No available iPhone simulator was found." >&2
+            exit 1
+          fi
+          echo "id=$simulator_id" >> "$GITHUB_OUTPUT"
+          xcrun simctl boot "$simulator_id" || true
+          xcrun simctl bootstatus "$simulator_id" -b
+
+      - name: Build and test App plus Widget
+        env:
+          SIMULATOR_ID: ${{ steps.simulator.outputs.id }}
+        run: |
+          set -euo pipefail
+          mkdir -p TestResults
+          xcodebuild test \
+            -project PocketPal.xcodeproj \
+            -scheme PocketPal \
+            -destination "platform=iOS Simulator,id=${SIMULATOR_ID}" \
+            -resultBundlePath TestResults/PocketPal.xcresult \
+            2>&1 | tee TestResults/xcodebuild.log
+
+      - name: Upload verification evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: pocketpal-ios-verification
+          path: TestResults
+          if-no-files-found: warn
+          retention-days: 14

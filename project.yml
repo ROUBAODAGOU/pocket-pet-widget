@@ -1,0 +1,97 @@
+name: PocketPal
+
+options:
+  bundleIdPrefix: com.example
+  createIntermediateGroups: true
+  deploymentTarget:
+    iOS: "17.0"
+  xcodeVersion: "26.6"
+
+settings:
+  base:
+    CURRENT_PROJECT_VERSION: 1
+    MARKETING_VERSION: 0.1.0
+    SWIFT_VERSION: 6.0
+    SWIFT_STRICT_CONCURRENCY: complete
+    CLANG_ENABLE_MODULES: YES
+    TARGETED_DEVICE_FAMILY: 1
+
+targets:
+  PocketPal:
+    type: application
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources:
+      - path: PocketPal/App
+      - path: PocketPal/Shared
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.example.PocketPal
+        PRODUCT_NAME: PocketPal
+        INFOPLIST_FILE: PocketPal/Configuration/Info.plist
+        CODE_SIGN_ENTITLEMENTS: PocketPal/Configuration/PocketPal.entitlements
+        CODE_SIGN_STYLE: Automatic
+    dependencies:
+      - target: PocketPalWidget
+        embed: true
+
+  PocketPalWidget:
+    type: app-extension
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources:
+      - path: PocketPal/Widget
+      - path: PocketPal/Shared
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.example.PocketPal.Widget
+        PRODUCT_NAME: PocketPalWidget
+        INFOPLIST_FILE: PocketPal/Configuration/Widget-Info.plist
+        CODE_SIGN_ENTITLEMENTS: PocketPal/Configuration/PocketPalWidget.entitlements
+        CODE_SIGN_STYLE: Automatic
+        APPLICATION_EXTENSION_API_ONLY: YES
+        SKIP_INSTALL: YES
+
+  PocketPalTests:
+    type: bundle.unit-test
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources:
+      - path: PocketPalTests
+    dependencies:
+      - target: PocketPal
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.example.PocketPalTests
+        GENERATE_INFOPLIST_FILE: YES
+
+  PocketPalUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources:
+      - path: PocketPalUITests
+    dependencies:
+      - target: PocketPal
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.example.PocketPalUITests
+        GENERATE_INFOPLIST_FILE: YES
+        TEST_TARGET_NAME: PocketPal
+
+schemes:
+  PocketPal:
+    build:
+      targets:
+        PocketPal: all
+        PocketPalWidget: all
+        PocketPalTests: [test]
+        PocketPalUITests: [test]
+    run:
+      config: Debug
+    test:
+      config: Debug
+      gatherCoverageData: true
+      targets:
+        - name: PocketPalTests
+        - name: PocketPalUITests
