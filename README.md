@@ -1,11 +1,19 @@
 # PocketPal
 
-PocketPal 是一个以 iPhone 主屏幕小组件为核心触点的本地虚拟宠物原型。当前已写入开发计划 Phase 1 的工程与云端验证骨架，但尚未取得首次 macOS 云端编译证据，不能标记为 Phase 1 完成。
+PocketPal 是一个以 iPhone 主屏幕小组件为核心触点的本地虚拟宠物原型。Phase 1 的可复现 Xcode 工程与云端验证骨架已经完成，并已在 GitHub Actions 的 macOS runner 上通过真实编译与模拟器测试。
+
+## 当前验证状态
+
+- 仓库：<https://github.com/ROUBAODAGOU/pocket-pet-widget>
+- 成功运行：<https://github.com/ROUBAODAGOU/pocket-pet-widget/actions/runs/32816753654>
+- 验证提交：`58aef4e17473e9744ca827095c879b15fd7cf4c9`
+- 结果：XcodeGen 工程生成成功；App 与 Widget Extension 编译成功；Unit Tests 1/1、UI Tests 1/1 通过。
+- 制品：`pocketpal-ios-verification`，包含 `PocketPal.xcresult` 与 `xcodebuild.log`。
 
 ## 没有 Mac 时怎么验证
 
-1. 在 GitHub 创建一个仓库，把本目录中的代码推送到 `main` 分支。
-2. 打开仓库的 **Actions** 页面，选择 **iOS CI**。
+1. 打开本仓库的 **Actions** 页面，选择 **iOS CI**。
+2. 查看最新的 `main` 分支运行，或手动点击 **Run workflow** 复跑。
 3. 工作流会在 GitHub 的 macOS 26 runner 上安装固定版本 XcodeGen、生成 Xcode 工程、启动 iPhone Simulator、编译 App 与 Widget Extension，并运行测试。
 4. 任务结束后下载 `pocketpal-ios-verification`，其中包含 Xcode 测试结果和同时收集标准输出、标准错误的构建日志。
 

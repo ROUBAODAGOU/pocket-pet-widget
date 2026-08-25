@@ -8,7 +8,14 @@
 
 ## Phase 1：可复现 Xcode 工程与云端验证骨架
 
-**状态：** 代码骨架已实现；等待首次 GitHub Actions 编译和测试证据，不得标记完成
+**状态：** 已完成（2026-08-25；GitHub Actions `iOS CI` run `32816753654` 全绿）
+
+**验证证据：**
+
+- 验证提交：`58aef4e17473e9744ca827095c879b15fd7cf4c9`。
+- GitHub Actions：<https://github.com/ROUBAODAGOU/pocket-pet-widget/actions/runs/32816753654>，工程生成、App 与 Widget 编译、模拟器测试和制品上传全部成功。
+- 自动测试：Unit Tests 1/1、UI Tests 1/1 通过，构建日志以 `TEST SUCCEEDED` 结束。
+- CI 制品：`pocketpal-ios-verification`，包含 `PocketPal.xcresult` 与 `xcodebuild.log`。
 
 **交付内容：**
 
@@ -38,9 +45,9 @@
 
 **本阶段如何验证：**
 
-1. Windows 上把代码推送到 GitHub。
-2. 打开仓库的 Actions 页面，确认 `Generate → Build → Test → Upload artifacts` 四步全绿。
-3. 下载构建日志与 `.xcresult`；本阶段不需要远程桌面 Mac。
+1. Windows 上打开 [Phase 1 成功运行](https://github.com/ROUBAODAGOU/pocket-pet-widget/actions/runs/32816753654)，确认 `Generate → Build → Test → Upload artifacts` 全绿。
+2. 从运行页下载 `pocketpal-ios-verification`，检查 `xcodebuild.log` 中的 `TEST SUCCEEDED` 和测试数量。
+3. 本阶段不需要远程桌面 Mac；真实主屏幕 Widget 交互仍按 Phase 7 的人工清单验收。
 
 ---
 
