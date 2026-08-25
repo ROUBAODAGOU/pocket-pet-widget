@@ -69,7 +69,12 @@ final class AdoptionAndHomeUITests: XCTestCase {
         XCTAssertEqual(homeScreen.value as? String, "动态字号，深色模式")
 
         try capture("home-dark-top", in: app)
-        scrollToVisible(app.buttons["interaction-feed"], in: app)
+        homeScreen.swipeUp()
+        for identifier in ["interaction-feed", "interaction-pet", "interaction-play"] {
+            let button = app.buttons[identifier]
+            XCTAssertTrue(button.waitForExistence(timeout: 10))
+            XCTAssertTrue(button.isHittable)
+        }
         try capture("home-dark-actions", in: app)
     }
 
@@ -176,7 +181,7 @@ final class AdoptionAndHomeUITests: XCTestCase {
 
     private func capture(_ name: String, in app: XCUIApplication) throws {
         XCTAssertEqual(app.state, .runningForeground)
-        let attachment = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
+        let attachment = XCTAttachment(screenshot: app.screenshot())
         attachment.name = name
         attachment.lifetime = .keepAlways
         add(attachment)
