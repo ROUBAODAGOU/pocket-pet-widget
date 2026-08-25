@@ -16,7 +16,6 @@ struct InteractionButtons: View {
                 HStack(spacing: PocketPalSpacing.small, content: buttons)
             }
         }
-        .accessibilityIdentifier("home-interactions")
     }
 
     @ViewBuilder

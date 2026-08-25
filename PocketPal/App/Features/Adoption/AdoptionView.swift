@@ -86,6 +86,15 @@ struct AdoptionView: View {
             .frame(maxWidth: .infinity)
         }
         .scrollDismissesKeyboard(.interactively)
+        .toolbar {
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                Button("adoption.keyboard.dismiss") {
+                    isNameFocused = false
+                }
+                .accessibilityIdentifier("adoption-keyboard-dismiss-button")
+            }
+        }
         .accessibilityIdentifier("adoption-screen")
     }
 

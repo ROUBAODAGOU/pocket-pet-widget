@@ -9,6 +9,7 @@ final class AdoptionAndHomeUITests: XCTestCase {
         app.launch()
 
         XCTAssertTrue(app.staticTexts["adoption-title"].waitForExistence(timeout: 10))
+        XCTAssertEqual(app.staticTexts["adoption-title"].label, "遇见你的奶油团子猫")
         try capture("adoption-light", in: app)
 
         app.buttons["adoption-confirm-button"].tap()
@@ -17,7 +18,7 @@ final class AdoptionAndHomeUITests: XCTestCase {
         let nameField = app.textFields["adoption-name-field"]
         nameField.tap()
         nameField.typeText(String(repeating: "猫", count: 13))
-        app.buttons["adoption-confirm-button"].tap()
+        submitUsingConfirmButton(in: app)
         assertLabelContains("adoption-error", text: "最多只能有 12", in: app)
 
         app.terminate()
@@ -113,9 +114,20 @@ final class AdoptionAndHomeUITests: XCTestCase {
         XCTAssertTrue(field.waitForExistence(timeout: 10))
         field.tap()
         field.typeText(name)
-        app.buttons["adoption-confirm-button"].tap()
+        submitUsingConfirmButton(in: app)
         XCTAssertTrue(app.staticTexts["home-pet-name"].waitForExistence(timeout: 10))
         XCTAssertEqual(app.staticTexts["home-pet-name"].label, name)
+    }
+
+    private func submitUsingConfirmButton(in app: XCUIApplication) {
+        let dismissButton = app.buttons["adoption-keyboard-dismiss-button"]
+        XCTAssertTrue(dismissButton.waitForExistence(timeout: 5))
+        dismissButton.tap()
+
+        let confirmButton = app.buttons["adoption-confirm-button"]
+        XCTAssertTrue(confirmButton.waitForExistence(timeout: 5))
+        XCTAssertTrue(confirmButton.isHittable)
+        confirmButton.tap()
     }
 
     private func tapInteraction(_ identifier: String, in app: XCUIApplication) {
