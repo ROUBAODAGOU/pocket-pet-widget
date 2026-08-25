@@ -60,10 +60,13 @@ final class AdoptionAndHomeUITests: XCTestCase {
         let app = makeApp(
             dataToken: makeDataToken(),
             resetData: true,
-            extraArguments: ["-AppleInterfaceStyle", "Dark"]
+            extraArguments: ["--pocketpal-ui-test-dark-mode"]
         )
         app.launch()
         adopt(name: "奶糖", in: app)
+
+        let homeScreen = app.scrollViews["home-screen"]
+        XCTAssertEqual(homeScreen.value as? String, "动态字号，深色模式")
 
         try capture("home-dark-top", in: app)
         scrollToVisible(app.buttons["interaction-feed"], in: app)
@@ -85,7 +88,7 @@ final class AdoptionAndHomeUITests: XCTestCase {
 
         let homeScreen = app.scrollViews["home-screen"]
         XCTAssertTrue(homeScreen.waitForExistence(timeout: 10))
-        XCTAssertEqual(homeScreen.value as? String, "最大辅助字号")
+        XCTAssertEqual(homeScreen.value as? String, "最大辅助字号，浅色模式")
 
         try capture("home-accessibility-top", in: app)
         scrollToVisible(app.buttons["interaction-feed"], in: app)
@@ -139,8 +142,10 @@ final class AdoptionAndHomeUITests: XCTestCase {
 
     private func scrollToVisible(_ element: XCUIElement, in app: XCUIApplication) {
         XCTAssertTrue(element.waitForExistence(timeout: 10))
+        let homeScreen = app.scrollViews["home-screen"]
+        XCTAssertTrue(homeScreen.waitForExistence(timeout: 10))
         for _ in 0..<6 where !element.isHittable {
-            app.swipeUp()
+            homeScreen.swipeUp()
         }
         XCTAssertTrue(element.isHittable)
     }

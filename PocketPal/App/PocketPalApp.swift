@@ -13,6 +13,7 @@ struct PocketPalApp: App {
     var body: some Scene {
         WindowGroup {
             RootView(store: store)
+                .preferredColorScheme(uiTestColorScheme)
                 .onAppear {
                     store.setSceneActive(scenePhase == .active)
                 }
@@ -20,5 +21,14 @@ struct PocketPalApp: App {
                     store.setSceneActive(newPhase == .active)
                 }
         }
+    }
+
+    private var uiTestColorScheme: ColorScheme? {
+#if DEBUG
+        if ProcessInfo.processInfo.arguments.contains("--pocketpal-ui-test-dark-mode") {
+            return .dark
+        }
+#endif
+        return nil
     }
 }

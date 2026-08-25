@@ -5,6 +5,7 @@ struct HomeView: View {
     var snapshot: WidgetSnapshot
 
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+    @Environment(\.colorScheme) private var colorScheme
 
     var body: some View {
         ScrollView {
@@ -52,7 +53,7 @@ struct HomeView: View {
         }
         .accessibilityIdentifier("home-screen")
         .accessibilityValue(
-            dynamicTypeSize == .accessibility5 ? "最大辅助字号" : "动态字号"
+            "\(dynamicTypeDescription)，\(colorSchemeDescription)"
         )
     }
 
@@ -77,7 +78,9 @@ struct HomeView: View {
 
     private var statusGrid: some View {
         LazyVGrid(
-            columns: [GridItem(.flexible()), GridItem(.flexible())],
+            columns: dynamicTypeSize.isAccessibilitySize
+                ? [GridItem(.flexible())]
+                : [GridItem(.flexible()), GridItem(.flexible())],
             spacing: PocketPalSpacing.medium
         ) {
             StatusCard(kind: .mood, value: snapshot.mood)
@@ -118,6 +121,14 @@ struct HomeView: View {
         case .resting: "cloud.fill"
         case .wandering: "pawprint.fill"
         }
+    }
+
+    private var dynamicTypeDescription: String {
+        dynamicTypeSize == .accessibility5 ? "最大辅助字号" : "动态字号"
+    }
+
+    private var colorSchemeDescription: String {
+        colorScheme == .dark ? "深色模式" : "浅色模式"
     }
 }
 
