@@ -4,7 +4,7 @@ protocol PetRepository: Sendable {
     func load() throws -> GameState?
     func save(_ state: GameState) throws
     func update(
-        _ transform: @Sendable (GameState?) throws -> GameState
+        _ transform: @escaping @Sendable (GameState?) throws -> GameState
     ) throws -> GameState
 }
 

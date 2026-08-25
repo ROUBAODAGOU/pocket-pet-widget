@@ -48,7 +48,7 @@ final class InMemoryPetRepository: PetRepository, @unchecked Sendable {
     }
 
     func update(
-        _ transform: @Sendable (GameState?) throws -> GameState
+        _ transform: @escaping @Sendable (GameState?) throws -> GameState
     ) throws -> GameState {
         lock.lock()
         defer { lock.unlock() }
