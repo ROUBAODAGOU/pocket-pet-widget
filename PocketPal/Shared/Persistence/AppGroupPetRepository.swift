@@ -13,10 +13,17 @@ final class AppGroupPetRepository: PetRepository, @unchecked Sendable {
     }
 
     private let directoryURL: URL
+    private let dataWriter: @Sendable (Data, URL) throws -> Void
     private let lock = NSLock()
 
-    init(location: SharedContainerLocation) throws {
+    init(
+        location: SharedContainerLocation,
+        dataWriter: @escaping @Sendable (Data, URL) throws -> Void = { data, url in
+            try data.write(to: url, options: .atomic)
+        }
+    ) throws {
         directoryURL = try SharedContainerResolver.resolve(location)
+        self.dataWriter = dataWriter
     }
 
     func load() throws -> GameState? {
@@ -118,7 +125,9 @@ final class AppGroupPetRepository: PetRepository, @unchecked Sendable {
         } else if hasBackup {
             _ = try decode(contentsOf: backupURL)
         } else {
-            try write(encoded, to: backupURL)
+            try write(encoded, to: primaryURL)
+            try? write(encoded, to: backupURL)
+            return
         }
 
         try write(encoded, to: primaryURL)
@@ -164,13 +173,13 @@ final class AppGroupPetRepository: PetRepository, @unchecked Sendable {
         from box: FileCoordinationResultBox<Value>,
         error: NSError?
     ) throws -> Value {
+        if let result = box.result {
+            return try result.get()
+        }
         if let error {
             throw PetRepositoryError.ioFailure(error.localizedDescription)
         }
-        guard let result = box.result else {
-            throw PetRepositoryError.ioFailure("File coordination did not run")
-        }
-        return try result.get()
+        throw PetRepositoryError.ioFailure("File coordination did not run")
     }
 
     private func encode(_ state: GameState) throws -> Data {
@@ -218,7 +227,7 @@ final class AppGroupPetRepository: PetRepository, @unchecked Sendable {
 
     private func write(_ data: Data, to url: URL) throws {
         do {
-            try data.write(to: url, options: .atomic)
+            try dataWriter(data, url)
         } catch {
             throw PetRepositoryError.ioFailure(error.localizedDescription)
         }

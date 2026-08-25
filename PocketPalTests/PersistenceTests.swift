@@ -18,6 +18,29 @@ final class PersistenceTests: XCTestCase {
         XCTAssertTrue(FileManager.default.fileExists(atPath: backupURL(in: directory).path))
     }
 
+    func testInitialPrimaryWriteFailureLeavesNoRecoverableAdoption() throws {
+        let directory = temporaryDirectory()
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let repository = try AppGroupPetRepository(
+            location: .testingDirectory(directory),
+            dataWriter: { data, url in
+                if url.lastPathComponent == AppGroupPetRepository.primaryFileName {
+                    throw CocoaError(.fileWriteUnknown)
+                }
+                try data.write(to: url, options: .atomic)
+            }
+        )
+
+        XCTAssertThrowsError(try repository.save(TestFixtures.state()))
+        XCTAssertFalse(FileManager.default.fileExists(atPath: primaryURL(in: directory).path))
+        XCTAssertFalse(FileManager.default.fileExists(atPath: backupURL(in: directory).path))
+
+        let freshRepository = try AppGroupPetRepository(
+            location: .testingDirectory(directory)
+        )
+        XCTAssertNil(try freshRepository.load())
+    }
+
     func testCorruptPrimaryRecoversMostRecentValidBackup() throws {
         let directory = temporaryDirectory()
         defer { try? FileManager.default.removeItem(at: directory) }

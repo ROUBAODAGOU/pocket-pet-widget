@@ -78,6 +78,22 @@ jobs:
             -resultBundlePath TestResults/PocketPal.xcresult \
             2>&1 | tee TestResults/xcodebuild.log
 
+      - name: Export UI screenshots
+        if: always()
+        run: |
+          set -euo pipefail
+          mkdir -p TestResults/ui-screenshots
+          if [ -d TestResults/PocketPal.xcresult ]; then
+            xcrun xcresulttool export attachments \
+              --path TestResults/PocketPal.xcresult \
+              --output-path TestResults/ui-screenshots
+          fi
+          screenshot_count="$(find TestResults/ui-screenshots -type f -name '*.png' | wc -l | tr -d ' ')"
+          if [ "$screenshot_count" -lt 6 ]; then
+            echo "Expected at least 6 UI screenshots, found $screenshot_count." >&2
+            exit 1
+          fi
+
       - name: Upload verification evidence
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
@@ -85,4 +101,13 @@ jobs:
           name: pocketpal-ios-verification
           path: TestResults
           if-no-files-found: warn
+          retention-days: 14
+
+      - name: Upload UI screenshots
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ui-screenshots
+          path: TestResults/ui-screenshots
+          if-no-files-found: error
           retention-days: 14

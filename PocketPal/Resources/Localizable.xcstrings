@@ -1,0 +1,196 @@
+{
+  "sourceLanguage" : "zh-Hans",
+  "strings" : {
+    "adoption.confirm" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "确认领养"
+          }
+        }
+      }
+    },
+    "adoption.name.hint" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "名称有效时创建宠物并进入家园"
+          }
+        }
+      }
+    },
+    "adoption.name.label" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "宠物名字"
+          }
+        }
+      }
+    },
+    "adoption.name.placeholder" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1–12 个字符"
+          }
+        }
+      }
+    },
+    "adoption.subtitle" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "给它一个名字，一起开始轻松的小日常。"
+          }
+        }
+      }
+    },
+    "adoption.title" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "遇见你的奶油团子猫"
+          }
+        }
+      }
+    },
+    "app.loading" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在唤醒小伙伴…"
+          }
+        }
+      }
+    },
+    "guide.body" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "长按 iPhone 主屏幕，点“编辑”与“添加小组件”，再搜索 PocketPal。"
+          }
+        }
+      }
+    },
+    "guide.dismiss" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "知道了"
+          }
+        }
+      }
+    },
+    "guide.title" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "把它放到主屏幕"
+          }
+        }
+      }
+    },
+    "interaction.feed" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "喂食"
+          }
+        }
+      }
+    },
+    "interaction.pet" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "抚摸"
+          }
+        }
+      }
+    },
+    "interaction.play" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "玩耍"
+          }
+        }
+      }
+    },
+    "recovery.retry" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重新读取"
+          }
+        }
+      }
+    },
+    "recovery.title" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暂时读不到宠物"
+          }
+        }
+      }
+    },
+    "status.coins" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "金币"
+          }
+        }
+      }
+    },
+    "status.hunger" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "饥饿"
+          }
+        }
+      }
+    },
+    "status.intimacy" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "亲密度"
+          }
+        }
+      }
+    },
+    "status.mood" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "心情"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}
