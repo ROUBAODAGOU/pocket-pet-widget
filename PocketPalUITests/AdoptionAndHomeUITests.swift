@@ -2,24 +2,10 @@ import XCTest
 
 @MainActor
 final class AdoptionAndHomeUITests: XCTestCase {
-    private var dataToken = ""
-
-    override func setUp() {
-        super.setUp()
-        continueAfterFailure = false
-        dataToken = "PocketPalUITests-\(UUID().uuidString)"
-    }
-
-    override func tearDown() {
-        let cleanupApp = makeApp(resetData: true)
-        cleanupApp.launch()
-        _ = cleanupApp.staticTexts["adoption-title"].waitForExistence(timeout: 5)
-        cleanupApp.terminate()
-        super.tearDown()
-    }
-
     func testAdoptionValidationInteractionsAndRelaunchPersistence() throws {
-        let app = makeApp(resetData: true)
+        continueAfterFailure = false
+        let dataToken = makeDataToken()
+        let app = makeApp(dataToken: dataToken, resetData: true)
         app.launch()
 
         XCTAssertTrue(app.staticTexts["adoption-title"].waitForExistence(timeout: 10))
@@ -69,7 +55,9 @@ final class AdoptionAndHomeUITests: XCTestCase {
     }
 
     func testDarkModeHomeScreenshots() throws {
+        continueAfterFailure = false
         let app = makeApp(
+            dataToken: makeDataToken(),
             resetData: true,
             extraArguments: ["-AppleInterfaceStyle", "Dark"]
         )
@@ -82,7 +70,9 @@ final class AdoptionAndHomeUITests: XCTestCase {
     }
 
     func testAccessibilityTextSizeScreenshots() throws {
+        continueAfterFailure = false
         let app = makeApp(
+            dataToken: makeDataToken(),
             resetData: true,
             extraArguments: [
                 "-UIPreferredContentSizeCategoryName",
@@ -103,6 +93,7 @@ final class AdoptionAndHomeUITests: XCTestCase {
     }
 
     private func makeApp(
+        dataToken: String,
         resetData: Bool,
         extraArguments: [String] = []
     ) -> XCUIApplication {
@@ -111,6 +102,10 @@ final class AdoptionAndHomeUITests: XCTestCase {
         app.launchEnvironment["POCKETPAL_TEST_RESET_DATA"] = resetData ? "1" : "0"
         app.launchArguments += extraArguments
         return app
+    }
+
+    private func makeDataToken() -> String {
+        "PocketPalUITests-\(UUID().uuidString)"
     }
 
     private func adopt(name: String, in app: XCUIApplication) {
