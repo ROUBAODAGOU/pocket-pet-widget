@@ -48,6 +48,19 @@ final class WidgetViewContractTests: XCTestCase {
         XCTAssertTrue(root.contains("宠物状态已保护"))
     }
 
+    func testDebugPreviewHarnessIsReleaseIsolated() throws {
+        let harness = try source(
+            "PocketPal/App/Debug/WidgetPreviewHarnessView.swift"
+        )
+        XCTAssertTrue(harness.hasPrefix("#if DEBUG"))
+        XCTAssertTrue(harness.hasSuffix("#endif\n"))
+
+        let app = try source("PocketPal/App/PocketPalApp.swift")
+        XCTAssertTrue(app.contains("if WidgetPreviewConfiguration.isEnabled"))
+        XCTAssertTrue(app.contains("#if DEBUG"))
+        XCTAssertFalse(try source("PocketPal/App/RootView.swift").contains("WidgetPreview"))
+    }
+
     func testStatusAndActionLabelsUseFullAccessibleNames() throws {
         let support = try source("PocketPal/Widget/Views/WidgetViewSupport.swift")
         for label in ["心情", "饥饿", "亲密度", "金币", "喂食", "抚摸", "玩耍"] {

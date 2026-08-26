@@ -12,7 +12,7 @@ struct PocketPalApp: App {
 
     var body: some Scene {
         WindowGroup {
-            RootView(store: store)
+            appContent
                 .preferredColorScheme(uiTestColorScheme)
                 .onAppear {
                     store.setSceneActive(scenePhase == .active)
@@ -21,6 +21,19 @@ struct PocketPalApp: App {
                     store.setSceneActive(newPhase == .active)
                 }
         }
+    }
+
+    @ViewBuilder
+    private var appContent: some View {
+#if DEBUG
+        if WidgetPreviewConfiguration.isEnabled {
+            WidgetPreviewHarnessView(configuration: .current)
+        } else {
+            RootView(store: store)
+        }
+#else
+        RootView(store: store)
+#endif
     }
 
     private var uiTestColorScheme: ColorScheme? {

@@ -25,6 +25,8 @@ targets:
     sources:
       - path: PocketPal/App
       - path: PocketPal/Shared
+      - path: PocketPal/Widget/PocketPalEntry.swift
+      - path: PocketPal/Widget/Views
       - path: PocketPal/Resources
         buildPhase: resources
     settings:
