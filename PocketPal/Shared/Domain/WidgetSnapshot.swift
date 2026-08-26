@@ -21,6 +21,13 @@ struct WidgetSnapshot: Equatable, Sendable {
         case .play: playAvailability
         }
     }
+
+    var contextualInteraction: PetInteraction {
+        if hunger >= 70 { return .feed }
+        if petAvailability.isAvailable { return .pet }
+        if playAvailability.isAvailable { return .play }
+        return .pet
+    }
 }
 
 struct InteractionAvailability: Equatable, Sendable {
