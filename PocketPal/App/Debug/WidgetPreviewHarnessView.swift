@@ -104,6 +104,7 @@ struct WidgetPreviewHarnessView: View {
             }
             .padding(20)
         }
+        .accessibilityElement(children: .contain)
         .accessibilityIdentifier("widget-preview-screen")
         .transaction { transaction in
             transaction.disablesAnimations = true
