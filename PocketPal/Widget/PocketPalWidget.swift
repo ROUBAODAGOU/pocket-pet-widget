@@ -1,37 +1,11 @@
 import SwiftUI
 import WidgetKit
 
-struct ProjectStatusEntry: TimelineEntry {
-    let date: Date
-    let message: String
-}
-
-struct ProjectTimelineProvider: TimelineProvider {
-    func placeholder(in context: Context) -> ProjectStatusEntry {
-        ProjectStatusEntry(date: .now, message: "准备领养")
-    }
-
-    func getSnapshot(
-        in context: Context,
-        completion: @escaping (ProjectStatusEntry) -> Void
-    ) {
-        completion(ProjectStatusEntry(date: .now, message: "工程已连接"))
-    }
-
-    func getTimeline(
-        in context: Context,
-        completion: @escaping (Timeline<ProjectStatusEntry>) -> Void
-    ) {
-        let entry = ProjectStatusEntry(date: .now, message: "等待小动物入住")
-        completion(Timeline(entries: [entry], policy: .never))
-    }
-}
-
 struct PocketPalWidget: Widget {
     var body: some WidgetConfiguration {
         StaticConfiguration(
             kind: ProjectConfiguration.widgetKind,
-            provider: ProjectTimelineProvider()
+            provider: PocketPalTimelineProvider()
         ) { entry in
             ProjectWidgetView(entry: entry)
                 .containerBackground(.fill.tertiary, for: .widget)
@@ -43,7 +17,7 @@ struct PocketPalWidget: Widget {
 }
 
 private struct ProjectWidgetView: View {
-    let entry: ProjectStatusEntry
+    let entry: PocketPalEntry
 
     @Environment(\.widgetFamily) private var family
 
@@ -57,7 +31,7 @@ private struct ProjectWidgetView: View {
             Text("PocketPal")
                 .font(.headline)
 
-            Text(entry.message)
+            Text(message)
                 .font(family == .systemSmall ? .caption : .body)
                 .foregroundStyle(.secondary)
 
@@ -69,6 +43,15 @@ private struct ProjectWidgetView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .accessibilityElement(children: .combine)
-        .accessibilityLabel("PocketPal，\(entry.message)")
+        .accessibilityLabel("PocketPal，\(message)")
+    }
+
+    private var message: String {
+        switch entry.content {
+        case .placeholder: "准备领养"
+        case .unadopted: "先去领养"
+        case let .snapshot(snapshot): "\(snapshot.petName)正在\(snapshot.action.displayName)"
+        case .failure: "打开 App 修复数据"
+        }
     }
 }

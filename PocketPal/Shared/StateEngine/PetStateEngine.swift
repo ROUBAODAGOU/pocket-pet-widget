@@ -59,6 +59,16 @@ struct PetStateEngine: Sendable {
         return .wandering
     }
 
+    func activeInteractionEndDate(in state: GameState, at date: Date) -> Date? {
+        guard let interaction = state.pet?.lastInteraction else { return nil }
+        let endDate = interaction.occurredAt.addingTimeInterval(
+            actionDuration(for: interaction.type)
+        )
+        let elapsed = date.timeIntervalSince(interaction.occurredAt)
+        guard elapsed >= 0, date < endDate else { return nil }
+        return endDate
+    }
+
     func availability(
         for interaction: PetInteraction,
         in state: GameState,
