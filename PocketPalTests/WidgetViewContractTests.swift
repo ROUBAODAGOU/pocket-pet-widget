@@ -40,9 +40,10 @@ final class WidgetViewContractTests: XCTestCase {
 
     func testRootCoversPlaceholderUnadoptedSnapshotFailureAndPrivacy() throws {
         let root = try source("PocketPal/Widget/Views/WidgetRootView.swift")
-        for state in [".placeholder", ".unadopted", ".snapshot", ".failure"] {
+        for state in [".placeholder", ".unadopted", ".failure"] {
             XCTAssertTrue(root.contains("case \(state)"))
         }
+        XCTAssertTrue(root.contains("case let .snapshot"))
         XCTAssertTrue(root.contains("redactionReasons.contains(.privacy)"))
         XCTAssertTrue(root.contains(".privacySensitive()"))
         XCTAssertTrue(root.contains("宠物状态已保护"))
