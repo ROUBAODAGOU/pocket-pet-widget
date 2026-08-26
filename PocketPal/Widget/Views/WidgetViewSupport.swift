@@ -217,7 +217,7 @@ struct WidgetActionStrip: View {
         if interaction == .feed, availability.blockedReason == .noSnacks {
             return "补饼干"
         }
-        switch interaction {
+        return switch interaction {
         case .feed: "喂食"
         case .pet: "抚摸"
         case .play: "玩耍"
