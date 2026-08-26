@@ -105,7 +105,9 @@ struct WidgetPreviewHarnessView: View {
             .padding(20)
         }
         .accessibilityIdentifier("widget-preview-screen")
-        .environment(\.accessibilityReduceMotion, true)
+        .transaction { transaction in
+            transaction.disablesAnimations = true
+        }
     }
 
     private var previewCard: some View {
