@@ -170,7 +170,18 @@
 
 ## Phase 4：三尺寸 Widget 与时间线展示
 
-**状态：** 未开始
+**状态：** 已完成（2026-08-27；GitHub Actions `iOS CI` run `33054538094` 全绿）
+
+**验证证据：**
+
+- 验证提交：`43fb6746b624e67b8739a114fba7d645afd30227`。
+- GitHub Actions：<https://github.com/ROUBAODAGOU/pocket-pet-widget/actions/runs/33054538094>，XcodeGen 工程生成、App 与 Widget Extension 编译、模拟器测试、截图导出和两个制品上传全部成功。
+- 自动测试：Unit Tests 53/53、UI Tests 7/7 通过，0 失败；构建日志以 `TEST SUCCEEDED` 结束。
+- UI 证据：`ui-screenshots` 制品包含 33 张 PNG，覆盖未领养、开心、饥饿、睡觉、错误、隐私保护、深色模式和最大辅助字号下的小/中/大三种 Widget 画布。
+- 人工截图复核：普通小号四项状态标题完整可读；普通中号三项操作均在卡片内；最大辅助字号下三种尺寸均保留宠物、动作、四项状态和操作，未见叠压或越界。
+- Windows 本地证据：`E:\PocketPal-CI-Evidence\run-33054538094-green`，包含 `PocketPal.xcresult`、`xcodebuild.log`、33 张截图和 manifest。
+- 独立代码审查：Timeline、三尺寸布局、无障碍固定画布、回归断言和最终小号宽度修复均通过 Stage 1 需求一致性与 Stage 2 代码质量审查，0 个 HIGH/MEDIUM 遗留问题。
+- 保留人工门禁：真实 Widget Gallery 添加、SpringBoard 系统边距和主屏幕容器行为仍等待最终远程 Mac 验收，Preview Harness 不替代该项。
 
 **依赖：** Phase 2、Phase 3
 
@@ -203,9 +214,11 @@
 
 **本阶段如何验证：**
 
-1. Windows 上查看 CI 上传的三尺寸截图矩阵。
-2. 确认 Widget target build 和时间线单元测试通过。
-3. “Widget Gallery 可添加、真实容器边距正确”保留到最终远程 Mac 人工验收。
+1. 在 Windows 打开 [Phase 4 成功运行](https://github.com/ROUBAODAGOU/pocket-pet-widget/actions/runs/33054538094)，确认全部步骤为绿色。
+2. 下载 `ui-screenshots` 查看 33 张截图；下载 `pocketpal-ios-verification` 查看 `.xcresult` 和 `xcodebuild.log`。
+3. 在日志中确认 Unit Tests 53/53、UI Tests 7/7 和 `TEST SUCCEEDED`。
+4. 也可直接查看本机证据目录 `E:\PocketPal-CI-Evidence\run-33054538094-green`。
+5. “Widget Gallery 可添加、真实容器边距正确”保留到最终远程 Mac 人工验收。
 
 ---
 
