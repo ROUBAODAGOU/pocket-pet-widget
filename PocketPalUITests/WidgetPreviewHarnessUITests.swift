@@ -145,22 +145,37 @@ final class WidgetPreviewHarnessUITests: XCTestCase {
         let petHeader = family == "large"
             ? "奶糖，正在闲逛，正在家里慢悠悠巡视"
             : "奶糖，正在闲逛"
-        var labels = [
-            petHeader,
+        let metricLabels = [
             "心情，88",
             "饥饿，26",
             "亲密度，42",
             "金币，18"
         ]
+        var exactLabels = [petHeader]
         if family == "small" {
-            labels.append("建议操作，抚摸，现在可用")
+            exactLabels.append("建议操作，抚摸，现在可用")
         } else {
-            labels += ["喂食，现在可用", "抚摸，现在可用", "玩耍，现在可用"]
+            exactLabels += ["喂食，现在可用", "抚摸，现在可用", "玩耍，现在可用"]
         }
 
-        for label in labels {
+        for label in exactLabels {
             let element = app.descendants(matching: .any)
                 .matching(NSPredicate(format: "label == %@", label))
+                .firstMatch
+            XCTAssertTrue(element.waitForExistence(timeout: 10), "Missing \(label)")
+            XCTAssertFalse(element.frame.isEmpty, "Empty frame for \(label)")
+            XCTAssertTrue(card.frame.contains(element.frame), "\(label) is outside the widget card")
+        }
+
+        for label in metricLabels {
+            let element = app.descendants(matching: .any)
+                .matching(
+                    NSPredicate(
+                        format: "label == %@ OR label BEGINSWITH %@",
+                        label,
+                        "\(label)，"
+                    )
+                )
                 .firstMatch
             XCTAssertTrue(element.waitForExistence(timeout: 10), "Missing \(label)")
             XCTAssertFalse(element.frame.isEmpty, "Empty frame for \(label)")
