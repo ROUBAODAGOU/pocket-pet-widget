@@ -45,6 +45,7 @@ struct LargePetWidgetView: View {
             WidgetActionStrip(snapshot: snapshot)
             growthSummary
         }
+        .dynamicTypeSize(...DynamicTypeSize.accessibility1)
     }
 
     private func hero(size: CGFloat, width: CGFloat) -> some View {

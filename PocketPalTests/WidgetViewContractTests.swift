@@ -85,7 +85,11 @@ final class WidgetViewContractTests: XCTestCase {
             let familySource = try source(path)
             XCTAssertTrue(familySource.contains("dynamicTypeSize.isAccessibilitySize"))
             XCTAssertTrue(familySource.contains("accessibilityLayout"))
+            XCTAssertTrue(familySource.contains("DynamicTypeSize.accessibility1"))
         }
+
+        let root = try source("PocketPal/Widget/Views/WidgetRootView.swift")
+        XCTAssertTrue(root.contains("dynamicTypeSize.isAccessibilitySize ? .accessibility1"))
     }
 
     func testContextualInteractionUsesHungerThenAvailabilityPriority() {

@@ -133,6 +133,9 @@ private struct WidgetMessageStateView: View {
                 }
             }
         }
+        .dynamicTypeSize(
+            dynamicTypeSize.isAccessibilitySize ? .accessibility1 : dynamicTypeSize
+        )
         .accessibilityElement(children: .ignore)
         .accessibilityLabel("\(title)，\(message)")
     }

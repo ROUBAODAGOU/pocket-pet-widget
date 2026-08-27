@@ -58,6 +58,7 @@ struct MediumPetWidgetView: View {
 
             WidgetActionStrip(snapshot: snapshot)
         }
+        .dynamicTypeSize(...DynamicTypeSize.accessibility1)
     }
 
     private func petHeader(size: CGFloat) -> some View {

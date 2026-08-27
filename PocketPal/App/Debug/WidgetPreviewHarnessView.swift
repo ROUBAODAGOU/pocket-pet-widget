@@ -95,12 +95,14 @@ struct WidgetPreviewHarnessView: View {
                         .foregroundStyle(PocketPalColors.secondaryInk)
                         .accessibilityIdentifier("widget-preview-variant")
                 }
+                .dynamicTypeSize(.large)
 
                 previewCard
 
                 Text("Debug 预览 · 正式 App 不显示")
                     .font(.caption)
                     .foregroundStyle(PocketPalColors.secondaryInk)
+                    .dynamicTypeSize(.large)
             }
             .padding(20)
         }

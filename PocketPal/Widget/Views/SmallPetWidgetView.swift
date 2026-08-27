@@ -61,6 +61,7 @@ struct SmallPetWidgetView: View {
 
             contextAction
         }
+        .dynamicTypeSize(...DynamicTypeSize.accessibility1)
     }
 
     private var header: some View {
