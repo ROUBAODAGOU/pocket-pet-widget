@@ -11,6 +11,9 @@ final class WidgetPreviewHarnessUITests: XCTestCase {
         for scenario in scenarios {
             for family in families {
                 let app = launch(family: family, scenario: scenario)
+                if scenario == "happy" {
+                    try assertHappyCoreContent(in: app, family: family)
+                }
                 try assertAndCapture(
                     app,
                     name: "widget-\(scenario)-\(family)",

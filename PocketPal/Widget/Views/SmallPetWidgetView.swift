@@ -48,14 +48,12 @@ struct SmallPetWidgetView: View {
                 PetAvatarView(action: snapshot.action, size: petSize)
                     .frame(width: size.width * 0.29)
 
-                LazyVGrid(
-                    columns: [GridItem(.flexible()), GridItem(.flexible())],
-                    spacing: 2
-                ) {
+                VStack(spacing: 1) {
                     ForEach(WidgetStatusKind.allCases) { kind in
-                        WidgetTinyMetric(kind: kind, snapshot: snapshot)
+                        WidgetCompactMetric(kind: kind, snapshot: snapshot)
                     }
                 }
+                .dynamicTypeSize(.large)
             }
             .frame(maxHeight: .infinity)
 

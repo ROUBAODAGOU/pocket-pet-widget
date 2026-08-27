@@ -17,18 +17,18 @@ struct MediumPetWidgetView: View {
     }
 
     private func standardLayout(in size: CGSize) -> some View {
-        let petSize = min(size.width * 0.30, size.height * 0.55)
-        return VStack(spacing: 7) {
-            HStack(spacing: 10) {
+        let petSize = min(size.width * 0.22, size.height * 0.36)
+        return VStack(spacing: 5) {
+            HStack(spacing: 8) {
                 petHeader(size: petSize)
-                    .frame(width: size.width * 0.35)
+                    .frame(width: size.width * 0.30)
 
                 LazyVGrid(
                     columns: [GridItem(.flexible()), GridItem(.flexible())],
-                    spacing: 6
+                    spacing: 3
                 ) {
                     ForEach(WidgetStatusKind.allCases) { kind in
-                        WidgetMetricCard(kind: kind, snapshot: snapshot)
+                        WidgetTinyMetric(kind: kind, snapshot: snapshot)
                     }
                 }
             }
