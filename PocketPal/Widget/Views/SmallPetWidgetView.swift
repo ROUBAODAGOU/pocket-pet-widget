@@ -18,20 +18,20 @@ struct SmallPetWidgetView: View {
     }
 
     private func standardLayout(in size: CGSize) -> some View {
-        let petSize = min(size.width * 0.50, size.height * 0.48)
+        let petSize = min(size.width * 0.39, size.height * 0.42)
         return VStack(spacing: 4) {
             header
 
             HStack(spacing: 5) {
                 PetAvatarView(action: snapshot.action, size: petSize)
-                    .frame(maxWidth: .infinity)
+                    .frame(width: size.width * 0.39)
 
                 VStack(spacing: 2) {
                     ForEach(WidgetStatusKind.allCases) { kind in
                         WidgetCompactMetric(kind: kind, snapshot: snapshot)
                     }
                 }
-                .frame(width: size.width * 0.50)
+                .frame(width: size.width * 0.57)
             }
             .frame(maxHeight: .infinity)
 
