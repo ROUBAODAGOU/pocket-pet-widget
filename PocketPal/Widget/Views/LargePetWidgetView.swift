@@ -97,19 +97,22 @@ struct LargePetWidgetView: View {
     }
 
     private var growthSummary: some View {
-        HStack(spacing: 6) {
-            Image(systemName: "clock.arrow.circlepath")
-                .accessibilityHidden(true)
-            Text(latestGrowthText)
-                .lineLimit(1)
-                .minimumScaleFactor(0.76)
-            Spacer(minLength: 0)
+        Link(destination: AppRoute.growth.url) {
+            HStack(spacing: 6) {
+                Image(systemName: "clock.arrow.circlepath")
+                    .accessibilityHidden(true)
+                Text(latestGrowthText)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.76)
+                Spacer(minLength: 0)
+            }
+            .font(.caption)
+            .foregroundStyle(PocketPalColors.secondaryInk)
+            .padding(.horizontal, 4)
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel("打开成长页，\(latestGrowthText)")
         }
-        .font(.caption)
-        .foregroundStyle(PocketPalColors.secondaryInk)
-        .padding(.horizontal, 4)
-        .accessibilityElement(children: .ignore)
-        .accessibilityLabel(latestGrowthText)
+        .buttonStyle(.plain)
     }
 
     private var latestGrowthText: String {

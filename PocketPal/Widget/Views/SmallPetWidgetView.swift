@@ -4,7 +4,6 @@ struct SmallPetWidgetView: View {
     var snapshot: WidgetSnapshot
 
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
-    @Environment(\.colorScheme) private var colorScheme
 
     var body: some View {
         GeometryReader { proxy in
@@ -81,18 +80,10 @@ struct SmallPetWidgetView: View {
     }
 
     private var contextAction: some View {
-        let interaction = snapshot.contextualInteraction
-        let availability = snapshot.availability(for: interaction)
-        return Label(interaction.widgetTitle, systemImage: interaction.widgetIcon)
-            .font(.caption2.bold())
-            .foregroundStyle(colorScheme == .light ? PocketPalColors.faceInk : PocketPalColors.ink)
-            .frame(maxWidth: .infinity, minHeight: 22)
-            .background(
-                PocketPalColors.mint.opacity(availability.isAvailable ? 0.9 : 0.35),
-                in: Capsule()
-            )
-            .accessibilityLabel(
-                "建议操作，\(interaction.widgetTitle)，\(availability.isAvailable ? "现在可用" : "暂不可用")"
-            )
+        WidgetInteractionControl(
+            interaction: snapshot.contextualInteraction,
+            snapshot: snapshot,
+            style: .contextual
+        )
     }
 }

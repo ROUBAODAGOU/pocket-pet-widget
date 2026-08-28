@@ -40,6 +40,8 @@ struct WidgetPreviewConfiguration {
         case unadopted
         case failure
         case privacy
+        case noSnacks = "no-snacks"
+        case cooldown
 
         var displayName: String {
             switch self {
@@ -49,6 +51,8 @@ struct WidgetPreviewConfiguration {
             case .unadopted: "未领养"
             case .failure: "数据错误"
             case .privacy: "隐私保护"
+            case .noSnacks: "饼干用完"
+            case .cooldown: "互动冷却"
             }
         }
     }
@@ -184,6 +188,52 @@ struct WidgetPreviewHarnessView: View {
                     coins: 16
                 ))
             )
+        case .noSnacks:
+            return PocketPalEntry(
+                date: date,
+                content: .snapshot(snapshot(
+                    date: date,
+                    action: .seekingFood,
+                    mood: 58,
+                    hunger: 82,
+                    intimacy: 34,
+                    coins: 12,
+                    snackCount: 0,
+                    feedAvailability: InteractionAvailability(
+                        isAvailable: false,
+                        blockedReason: .noSnacks,
+                        availableAt: nil
+                    )
+                ))
+            )
+        case .cooldown:
+            let availableAt = date.addingTimeInterval(10 * 60)
+            return PocketPalEntry(
+                date: date,
+                content: .snapshot(snapshot(
+                    date: date,
+                    action: .resting,
+                    mood: 90,
+                    hunger: 8,
+                    intimacy: 44,
+                    coins: 20,
+                    feedAvailability: InteractionAvailability(
+                        isAvailable: false,
+                        blockedReason: .notHungry,
+                        availableAt: nil
+                    ),
+                    petAvailability: InteractionAvailability(
+                        isAvailable: false,
+                        blockedReason: .cooldown,
+                        availableAt: availableAt
+                    ),
+                    playAvailability: InteractionAvailability(
+                        isAvailable: false,
+                        blockedReason: .cooldown,
+                        availableAt: availableAt
+                    )
+                ))
+            )
         }
     }
 
@@ -193,7 +243,11 @@ struct WidgetPreviewHarnessView: View {
         mood: Int,
         hunger: Int,
         intimacy: Int,
-        coins: Int
+        coins: Int,
+        snackCount: Int = 3,
+        feedAvailability: InteractionAvailability = .available,
+        petAvailability: InteractionAvailability = .available,
+        playAvailability: InteractionAvailability = .available
     ) -> WidgetSnapshot {
         WidgetSnapshot(
             generatedAt: date,
@@ -203,10 +257,10 @@ struct WidgetPreviewHarnessView: View {
             hunger: hunger,
             intimacy: intimacy,
             coins: coins,
-            snackCount: 3,
-            feedAvailability: .available,
-            petAvailability: .available,
-            playAvailability: .available,
+            snackCount: snackCount,
+            feedAvailability: feedAvailability,
+            petAvailability: petAvailability,
+            playAvailability: playAvailability,
             latestGrowthEvent: GrowthEvent(
                 occurredAt: date.addingTimeInterval(-60 * 60),
                 interactionType: .pet,

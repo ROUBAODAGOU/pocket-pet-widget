@@ -99,6 +99,40 @@ final class WidgetPreviewHarnessUITests: XCTestCase {
         }
     }
 
+    func testNoSnacksAndCooldownControlsAcrossFamilies() throws {
+        continueAfterFailure = false
+        for scenario in ["no-snacks", "cooldown"] {
+            for family in families {
+                let app = launch(family: family, scenario: scenario)
+                let expectedLabel: String
+                if scenario == "no-snacks" {
+                    expectedLabel = family == "small"
+                        ? "建议操作，补充饼干，当前没有饼干"
+                        : "补充饼干，当前没有饼干"
+                } else {
+                    expectedLabel = family == "small"
+                        ? "建议操作，抚摸，冷却中"
+                        : "抚摸，冷却中"
+                }
+                let control = app.descendants(matching: .any)
+                    .matching(NSPredicate(format: "label == %@", expectedLabel))
+                    .firstMatch
+                XCTAssertTrue(control.waitForExistence(timeout: 10), expectedLabel)
+
+                let card = app.descendants(matching: .any)["widget-preview-card"]
+                XCTAssertTrue(card.waitForExistence(timeout: 10))
+                XCTAssertFalse(control.frame.isEmpty)
+                XCTAssertTrue(card.frame.contains(control.frame))
+                try assertAndCapture(
+                    app,
+                    name: "widget-\(scenario)-\(family)",
+                    expectedValue: "\(family),\(scenario)"
+                )
+                app.terminate()
+            }
+        }
+    }
+
     private func launch(
         family: String,
         scenario: String,

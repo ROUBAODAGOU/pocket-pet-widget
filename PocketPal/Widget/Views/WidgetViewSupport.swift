@@ -184,85 +184,15 @@ struct WidgetProgressMetric: View {
 struct WidgetActionStrip: View {
     var snapshot: WidgetSnapshot
 
-    @Environment(\.colorScheme) private var colorScheme
-
     var body: some View {
         HStack(spacing: 6) {
             ForEach(PetInteraction.allCases, id: \.self) { interaction in
-                let availability = snapshot.availability(for: interaction)
-                HStack(spacing: 4) {
-                    Image(systemName: icon(for: interaction))
-                        .accessibilityHidden(true)
-                    Text(title(for: interaction, availability: availability))
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.72)
-                }
-                .font(.caption.bold())
-                .foregroundStyle(foregroundColor(for: interaction, availability: availability))
-                .frame(maxWidth: .infinity, minHeight: 30)
-                .background(
-                    tint(for: interaction).opacity(availability.isAvailable ? 0.88 : 0.34),
-                    in: RoundedRectangle(cornerRadius: 11)
+                WidgetInteractionControl(
+                    interaction: interaction,
+                    snapshot: snapshot,
+                    style: .strip
                 )
-                .accessibilityElement(children: .ignore)
-                .accessibilityLabel(accessibilityLabel(for: interaction, availability: availability))
             }
-        }
-    }
-
-    private func title(
-        for interaction: PetInteraction,
-        availability: InteractionAvailability
-    ) -> String {
-        if interaction == .feed, availability.blockedReason == .noSnacks {
-            return "补饼干"
-        }
-        return switch interaction {
-        case .feed: "喂食"
-        case .pet: "抚摸"
-        case .play: "玩耍"
-        }
-    }
-
-    private func icon(for interaction: PetInteraction) -> String {
-        switch interaction {
-        case .feed: "star.fill"
-        case .pet: "hand.raised.fill"
-        case .play: "circle.grid.cross.fill"
-        }
-    }
-
-    private func tint(for interaction: PetInteraction) -> Color {
-        switch interaction {
-        case .feed: PocketPalColors.cream
-        case .pet: PocketPalColors.peach
-        case .play: PocketPalColors.sky
-        }
-    }
-
-    private func foregroundColor(
-        for interaction: PetInteraction,
-        availability: InteractionAvailability
-    ) -> Color {
-        if colorScheme == .light { return PocketPalColors.faceInk }
-        if interaction == .feed, availability.isAvailable {
-            return PocketPalColors.faceInk
-        }
-        return PocketPalColors.ink
-    }
-
-    private func accessibilityLabel(
-        for interaction: PetInteraction,
-        availability: InteractionAvailability
-    ) -> String {
-        let title = title(for: interaction, availability: availability)
-        guard !availability.isAvailable else { return "\(title)，现在可用" }
-        switch availability.blockedReason {
-        case .noSnacks: return "补充饼干，当前没有饼干"
-        case .notHungry: return "喂食，现在还不饿"
-        case .cooldown: return "\(title)，冷却中"
-        case .noPet: return "\(title)，请先领养"
-        case nil: return "\(title)，暂不可用"
         }
     }
 }
@@ -295,6 +225,14 @@ extension PetInteraction {
         case .feed: "star.fill"
         case .pet: "hand.raised.fill"
         case .play: "circle.grid.cross.fill"
+        }
+    }
+
+    var widgetTint: Color {
+        switch self {
+        case .feed: PocketPalColors.cream
+        case .pet: PocketPalColors.peach
+        case .play: PocketPalColors.sky
         }
     }
 }

@@ -89,8 +89,8 @@ jobs:
               --output-path TestResults/ui-screenshots
           fi
           screenshot_count="$(find TestResults/ui-screenshots -type f -name '*.png' | wc -l | tr -d ' ')"
-          if [ "$screenshot_count" -lt 38 ]; then
-            echo "Expected at least 38 App, deep-link, and Widget screenshots, found $screenshot_count." >&2
+          if [ "$screenshot_count" -lt 44 ]; then
+            echo "Expected at least 44 App, deep-link, and Widget screenshots, found $screenshot_count." >&2
             exit 1
           fi
           manifest="TestResults/ui-screenshots/manifest.json"
@@ -103,6 +103,8 @@ jobs:
             grep -q "widget-accessibility-${family}_" "$manifest"
             grep -q "widget-accessibility-unadopted-${family}_" "$manifest"
             grep -q "widget-accessibility-failure-${family}_" "$manifest"
+            grep -q "widget-no-snacks-${family}_" "$manifest"
+            grep -q "widget-cooldown-${family}_" "$manifest"
           done
           for route in adopt home backpack growth invalid-fallback; do
             grep -q "deeplink-${route}_" "$manifest"

@@ -19,10 +19,18 @@ struct WidgetRootView: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .widgetURL(rootDestination)
     }
 
     private var family: WidgetFamily {
         familyOverride ?? environmentFamily
+    }
+
+    private var rootDestination: URL {
+        switch entry.content {
+        case .unadopted: AppRoute.adopt.url
+        case .placeholder, .snapshot, .failure: AppRoute.home.url
+        }
     }
 
     @ViewBuilder

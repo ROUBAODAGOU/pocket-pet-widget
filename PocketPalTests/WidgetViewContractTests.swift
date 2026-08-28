@@ -114,6 +114,55 @@ final class WidgetViewContractTests: XCTestCase {
         XCTAssertEqual(snapshot.contextualInteraction, .pet)
     }
 
+    func testInteractiveControlsUseIntentsAndRequiredLinks() throws {
+        let support = try source("PocketPal/Widget/Views/WidgetInteractionControl.swift")
+        for intent in ["FeedPetIntent", "PetPetIntent", "PlayPetIntent"] {
+            XCTAssertTrue(support.contains("Button(intent: \(intent)())"), intent)
+        }
+        XCTAssertTrue(support.contains("Link(destination: route.url)"))
+        XCTAssertTrue(support.contains(".disabled(!isEnabled)"))
+
+        let small = try source("PocketPal/Widget/Views/SmallPetWidgetView.swift")
+        XCTAssertTrue(small.contains("WidgetInteractionControl"))
+        XCTAssertTrue(small.contains("snapshot.contextualInteraction"))
+
+        let root = try source("PocketPal/Widget/Views/WidgetRootView.swift")
+        XCTAssertTrue(root.contains(".widgetURL(rootDestination)"))
+        XCTAssertTrue(root.contains("case .unadopted: AppRoute.adopt.url"))
+
+        let large = try source("PocketPal/Widget/Views/LargePetWidgetView.swift")
+        XCTAssertTrue(large.contains("Link(destination: AppRoute.growth.url)"))
+    }
+
+    func testInteractionTargetsDistinguishIntentLinkAndDisabledStates() {
+        var snapshot = makeSnapshot(hunger: 60)
+        XCTAssertEqual(
+            snapshot.widgetInteractionTarget(for: .feed),
+            .intent(.feed, isEnabled: true)
+        )
+
+        snapshot.snackCount = 0
+        snapshot.feedAvailability = InteractionAvailability(
+            isAvailable: false,
+            blockedReason: .noSnacks,
+            availableAt: nil
+        )
+        XCTAssertEqual(
+            snapshot.widgetInteractionTarget(for: .feed),
+            .route(.backpack)
+        )
+
+        snapshot.petAvailability = InteractionAvailability(
+            isAvailable: false,
+            blockedReason: .cooldown,
+            availableAt: TestFixtures.referenceDate.addingTimeInterval(5 * 60)
+        )
+        XCTAssertEqual(
+            snapshot.widgetInteractionTarget(for: .pet),
+            .intent(.pet, isEnabled: false)
+        )
+    }
+
     private func makeSnapshot(hunger: Int) -> WidgetSnapshot {
         WidgetSnapshot(
             generatedAt: TestFixtures.referenceDate,
