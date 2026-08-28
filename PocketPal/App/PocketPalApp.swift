@@ -5,9 +5,11 @@ import SwiftUI
 struct PocketPalApp: App {
     @Environment(\.scenePhase) private var scenePhase
     @StateObject private var store: AppStore
+    @StateObject private var router: AppRouter
 
     init() {
         _store = StateObject(wrappedValue: AppComposition.makeStore())
+        _router = StateObject(wrappedValue: AppRouter())
     }
 
     var body: some Scene {
@@ -20,6 +22,9 @@ struct PocketPalApp: App {
                 .onChange(of: scenePhase) { _, newPhase in
                     store.setSceneActive(newPhase == .active)
                 }
+                .onOpenURL { url in
+                    router.handle(url)
+                }
         }
     }
 
@@ -29,10 +34,10 @@ struct PocketPalApp: App {
         if WidgetPreviewConfiguration.isEnabled {
             WidgetPreviewHarnessView(configuration: .current)
         } else {
-            RootView(store: store)
+            RootView(store: store, router: router)
         }
 #else
-        RootView(store: store)
+        RootView(store: store, router: router)
 #endif
     }
 

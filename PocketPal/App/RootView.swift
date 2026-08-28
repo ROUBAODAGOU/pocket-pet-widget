@@ -2,6 +2,7 @@ import SwiftUI
 
 struct RootView: View {
     @ObservedObject var store: AppStore
+    @ObservedObject var router: AppRouter
 
     var body: some View {
         ZStack {
@@ -15,7 +16,7 @@ struct RootView: View {
             case .adoption:
                 AdoptionView(store: store)
             case let .home(snapshot):
-                HomeView(store: store, snapshot: snapshot)
+                routedContent(snapshot: snapshot)
             case let .failure(message, canRetry):
                 DataRecoveryView(
                     message: message,
@@ -25,8 +26,25 @@ struct RootView: View {
             }
         }
         .tint(PocketPalColors.ink)
+        .accessibilityIdentifier(
+            "root-route-\(router.route.rawValue)-handled-\(router.handledURLCount)"
+        )
         .task {
             store.start()
+        }
+    }
+
+    @ViewBuilder
+    private func routedContent(snapshot: WidgetSnapshot) -> some View {
+        switch router.route {
+        case .adopt, .home:
+            HomeView(store: store, snapshot: snapshot)
+        case .backpack, .growth:
+            RouteEntryView(
+                route: router.route,
+                petName: snapshot.petName,
+                goHome: { router.navigate(to: .home) }
+            )
         }
     }
 }
