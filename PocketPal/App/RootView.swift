@@ -24,11 +24,15 @@ struct RootView: View {
                     retry: { store.refresh() }
                 )
             }
+
+#if DEBUG
+            DebugRouteProbe(
+                route: router.route,
+                handledURLCount: router.handledURLCount
+            )
+#endif
         }
         .tint(PocketPalColors.ink)
-        .accessibilityIdentifier(
-            "root-route-\(router.route.rawValue)-handled-\(router.handledURLCount)"
-        )
         .task {
             store.start()
         }
@@ -48,6 +52,24 @@ struct RootView: View {
         }
     }
 }
+
+#if DEBUG
+private struct DebugRouteProbe: View {
+    var route: AppRoute
+    var handledURLCount: Int
+
+    var body: some View {
+        Color.clear
+            .frame(width: 1, height: 1)
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel("内部路由状态")
+            .accessibilityIdentifier(
+                "root-route-\(route.rawValue)-handled-\(handledURLCount)"
+            )
+            .allowsHitTesting(false)
+    }
+}
+#endif
 
 private struct DataRecoveryView: View {
     var message: String
