@@ -28,7 +28,7 @@ struct RootView: View {
 #if DEBUG
             DebugRouteProbe(
                 route: router.route,
-                handledURLCount: router.handledURLCount
+                handledRequestToken: router.lastHandledRequest?.debugToken ?? "none"
             )
 #endif
         }
@@ -56,7 +56,7 @@ struct RootView: View {
 #if DEBUG
 private struct DebugRouteProbe: View {
     var route: AppRoute
-    var handledURLCount: Int
+    var handledRequestToken: String
 
     var body: some View {
         Color.clear
@@ -64,7 +64,7 @@ private struct DebugRouteProbe: View {
             .accessibilityElement(children: .ignore)
             .accessibilityLabel("内部路由状态")
             .accessibilityIdentifier(
-                "root-route-\(route.rawValue)-handled-\(handledURLCount)"
+                "root-route-\(route.rawValue)-request-\(handledRequestToken)"
             )
             .allowsHitTesting(false)
     }

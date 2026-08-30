@@ -8,7 +8,7 @@ final class DeepLinkUITests: XCTestCase {
 
         app.open(try routeURL("adopt"))
 
-        assertRoute("adopt", handledCount: 1, in: app)
+        assertRoute("adopt", request: "adopt", in: app)
         XCTAssertTrue(app.staticTexts["adoption-title"].waitForExistence(timeout: 10))
         try capture("deeplink-adopt", in: app)
     }
@@ -22,15 +22,15 @@ final class DeepLinkUITests: XCTestCase {
         app.launchEnvironment["POCKETPAL_TEST_RESET_DATA"] = "0"
 
         let destinations = [
-            ("backpack", "backpack", 1, "backpack-route-entry", "deeplink-backpack"),
-            ("home", "home", 2, "home-screen", "deeplink-home"),
-            ("growth", "growth", 3, "growth-route-entry", "deeplink-growth"),
-            ("not-a-route", "home", 4, "home-screen", "deeplink-invalid-fallback")
+            ("backpack", "backpack", "backpack", "backpack-route-entry", "deeplink-backpack"),
+            ("home", "home", "home", "home-screen", "deeplink-home"),
+            ("growth", "growth", "growth", "growth-route-entry", "deeplink-growth"),
+            ("not-a-route", "home", "invalid", "home-screen", "deeplink-invalid-fallback")
         ]
 
-        for (urlRoute, expectedRoute, handledCount, identifier, screenshotName) in destinations {
+        for (urlRoute, expectedRoute, request, identifier, screenshotName) in destinations {
             app.open(try routeURL(urlRoute))
-            assertRoute(expectedRoute, handledCount: handledCount, in: app)
+            assertRoute(expectedRoute, request: request, in: app)
             let destination = app.descendants(matching: .any)[identifier]
             XCTAssertTrue(destination.waitForExistence(timeout: 10), urlRoute)
             try capture(screenshotName, in: app)
@@ -54,11 +54,11 @@ final class DeepLinkUITests: XCTestCase {
 
     private func assertRoute(
         _ route: String,
-        handledCount: Int,
+        request: String,
         in app: XCUIApplication
     ) {
         let routeRoot = app.descendants(matching: .any)[
-            "root-route-\(route)-handled-\(handledCount)"
+            "root-route-\(route)-request-\(request)"
         ]
         XCTAssertTrue(routeRoot.waitForExistence(timeout: 10), route)
     }

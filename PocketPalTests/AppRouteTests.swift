@@ -33,10 +33,10 @@ final class AppRouterTests: XCTestCase {
 
         XCTAssertTrue(router.handle(try XCTUnwrap(URL(string: "pocketpal://backpack"))))
         XCTAssertEqual(router.route, .backpack)
-        XCTAssertEqual(router.handledURLCount, 1)
+        XCTAssertEqual(router.lastHandledRequest, .route(.backpack))
 
         XCTAssertFalse(router.handle(try XCTUnwrap(URL(string: "pocketpal://invalid"))))
         XCTAssertEqual(router.route, .home)
-        XCTAssertEqual(router.handledURLCount, 2)
+        XCTAssertEqual(router.lastHandledRequest, .invalid)
     }
 }
